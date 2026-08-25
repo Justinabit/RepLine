@@ -46,7 +46,7 @@ const CONFIG = {
   // Replace both of these with the values from your own Supabase project
   // (Project Settings → API). Until you do, REP LINE automatically falls
   // back to a local, per-browser leaderboard — nothing breaks either way.
-  SUPABASE_URL: "https://vwfpvgusidvsbbuqdhtj.supabase.co/rest/v1/",
+  SUPABASE_URL: "https://vwfpvgusidvsbbuqdhtj.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_CObQpTv6w91tM1jBFb14bg_3025Ktx2",
 };
 
