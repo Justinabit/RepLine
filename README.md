@@ -46,7 +46,7 @@ anywhere — the only thing that ever leaves your device is a rep count.
 
 ## Try it
 
-*(`https://repline-sigma.vercel.app`)*
+*`https://repline-sigma.vercel.app`*
 
 ## How it works
 
