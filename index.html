@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>REP LINE — Push-Up Challenge Tracker</title>
+<meta name="description" content="Camera-based push-up tracker. Count your consecutive reps, chase your PR, and climb the local leaderboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ TOP NAV ============ -->
+<header class="topbar">
+  <div class="topbar__inner">
+    <button class="brand" data-nav="dashboard" aria-label="Go to dashboard">
+      <span class="brand__mark">⏱</span>
+      <span class="brand__name">REP<span class="brand__accent">LINE</span></span>
+    </button>
+
+    <nav class="navlinks" aria-label="Primary">
+      <button class="navlink" data-nav="dashboard">Dashboard</button>
+      <button class="navlink" data-nav="leaderboard">Leaderboard</button>
+      <button class="navlink" data-nav="history">History</button>
+      <button class="navlink" data-nav="how-it-works">How It Works</button>
+      <button class="navlink" data-nav="settings">Settings</button>
+    </nav>
+
+    <div class="topbar__user">
+      <button class="user-chip" id="userChip" aria-label="Account — click to log out">
+        👤 <span id="userChipName">Guest</span>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu" hidden>
+  <button class="mobile-menu__link" data-nav="dashboard">Dashboard</button>
+  <button class="mobile-menu__link" data-nav="leaderboard">Leaderboard</button>
+  <button class="mobile-menu__link" data-nav="history">History</button>
+  <button class="mobile-menu__link" data-nav="how-it-works">How It Works</button>
+  <button class="mobile-menu__link" data-nav="settings">Settings</button>
+</div>
+
+<main id="app">
+
+  <!-- ============ DASHBOARD SCREEN ============ -->
+  <section class="screen" id="screen-dashboard" data-screen>
+
+    <div class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">PUSH-UP CHALLENGE</p>
+        <h1 class="hero__title">How many can<br>you do<span class="hero__accent-dot">.</span></h1>
+        <p class="hero__sub">No stopping. No shortcuts. Just you, the camera, and the count.
+          Challenge your friends and try to beat your own best.</p>
+        <button class="btn btn--primary btn--xl" id="startChallengeBtn">
+          <span class="btn__pulse"></span>
+          Start Challenge
+        </button>
+        <div class="hero__links">
+          <button class="link-btn" data-nav="leaderboard">Leaderboard →</button>
+          <button class="link-btn" data-nav="history">Your Records →</button>
+          <button class="link-btn" data-nav="how-it-works">How It Works →</button>
+        </div>
+      </div>
+      <div class="hero__scoreboard" aria-hidden="true">
+        <div class="mini-board">
+          <span class="mini-board__label">LIVE DEMO</span>
+          <span class="mini-board__num" id="heroDemoNum">00</span>
+          <span class="mini-board__unit">REPS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-card__label">Your Best</span>
+        <span class="stat-card__value" id="statBest">0</span>
+        <span class="stat-card__unit">push-ups</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__label">Total Reps</span>
+        <span class="stat-card__value" id="statTotal">0</span>
+        <span class="stat-card__unit">lifetime</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__label">Challenges</span>
+        <span class="stat-card__value" id="statChallenges">0</span>
+        <span class="stat-card__unit">completed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__label" id="statRankLabel">Local Rank</span>
+        <span class="stat-card__value" id="statRank">—</span>
+        <span class="stat-card__unit" id="statRankUnit">on this device</span>
+      </div>
+    </div>
+
+    <div class="dashboard-columns">
+      <div class="panel">
+        <div class="panel__head">
+          <h2>Personal Records</h2>
+          <button class="link-btn link-btn--small" data-nav="history">View all</button>
+        </div>
+        <div id="dashboardPRList" class="pr-list"><!-- injected --></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head">
+          <h2>🏆 Leaderboard</h2>
+          <button class="link-btn link-btn--small" data-nav="leaderboard">View all</button>
+        </div>
+        <div id="dashboardLeaderboardList" class="board-list"><!-- injected --></div>
+      </div>
+    </div>
+
+    <div class="panel panel--wide">
+      <div class="panel__head">
+        <h2>How It Works</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step">
+          <span class="step__num">1</span>
+          <h3>Position yourself</h3>
+          <p>Prop your phone or laptop up sideways so your <em>entire body</em> is visible in frame.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">2</span>
+          <h3>Start the tracker</h3>
+          <p>Allow camera access, pass the quick calibration check, and begin your challenge.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">3</span>
+          <h3>Do your push-ups</h3>
+          <p>REP LINE watches your shoulder, elbow, wrist and hip angles to detect real repetitions.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">4</span>
+          <h3>Don't stop</h3>
+          <p>Your score is the number of consecutive valid push-ups — down, bottom, and back up counts as one.</p>
+        </div>
+        <div class="step">
+          <span class="step__num">5</span>
+          <h3>Beat the leaderboard</h3>
+          <p>Finish strong, set a new PR, and see where you land against your friends.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NAME PROMPT (modal-like screen) ============ -->
+  <section class="screen screen--centered" id="screen-name" data-screen>
+    <div class="card card--form">
+      <p class="eyebrow">ONE QUICK THING</p>
+      <h2>What should we call you?</h2>
+      <p class="muted">Your name shows up on your history and the local leaderboard.</p>
+      <label class="field-label" for="nameInput">Display name</label>
+      <input id="nameInput" class="text-input" type="text" maxlength="24" placeholder="e.g. Alex" autocomplete="off">
+      <p class="field-error" id="nameError" hidden>Please enter a name (letters, numbers, spaces — up to 24 characters).</p>
+      <button class="btn btn--primary btn--full" id="nameContinueBtn">Continue</button>
+    </div>
+  </section>
+
+  <!-- ============ CAMERA SETUP / PERMISSION SCREEN ============ -->
+  <section class="screen screen--centered" id="screen-permission" data-screen>
+    <div class="card card--form">
+      <p class="eyebrow">CAMERA SETUP</p>
+      <h2>We need your camera</h2>
+      <p class="muted">Your camera is used <strong>only</strong> for real-time push-up tracking. Nothing is
+        recorded, uploaded, or saved — all processing happens locally in your browser.</p>
+      <ul class="setup-checklist">
+        <li>✓ Place the camera at a side angle</li>
+        <li>✓ Keep your entire body visible</li>
+        <li>✓ Make sure the room is well lit</li>
+        <li>✓ Leave space around you to move</li>
+      </ul>
+      <button class="btn btn--primary btn--full" id="grantCameraBtn">Allow Camera Access</button>
+      <div class="alert alert--danger" id="cameraDeniedAlert" hidden>
+        <strong>Camera access is required to track your push-ups.</strong>
+        <p>Please allow camera access in your browser settings and try again.</p>
+        <button class="btn btn--secondary btn--full" id="retryCameraBtn">Try Again</button>
+      </div>
+      <div class="alert alert--danger" id="cameraUnavailableAlert" hidden>
+        <strong>Camera unavailable.</strong>
+        <p>We couldn't find a usable camera on this device. Check your browser and hardware, then try again.</p>
+        <button class="btn btn--secondary btn--full" id="retryCameraBtn2">Try Again</button>
+      </div>
+      <div class="alert alert--danger" id="browserUnsupportedAlert" hidden>
+        <strong>This browser isn't supported.</strong>
+        <p>REP LINE needs camera access and modern web APIs. Try the latest Chrome, Safari, or Edge.</p>
+      </div>
+      <button class="link-btn" data-nav="dashboard">Cancel</button>
+    </div>
+  </section>
+
+  <!-- ============ CALIBRATION SCREEN ============ -->
+  <section class="screen" id="screen-calibration" data-screen>
+    <div class="calib-wrap">
+      <p class="eyebrow">GET READY</p>
+      <h2>Let's check your setup</h2>
+      <p class="muted">Make sure your entire body is visible, camera positioned to your side.</p>
+
+      <div class="camera-stage camera-stage--calib">
+        <video id="calibVideo" autoplay playsinline muted></video>
+        <canvas id="calibCanvas"></canvas>
+        <div class="camera-badge camera-badge--status" id="calibStatusBadge">● Connecting…</div>
+      </div>
+
+      <ul class="calib-checks" id="calibChecks">
+        <li data-check="camera"><span class="calib-dot"></span> Camera connected</li>
+        <li data-check="body"><span class="calib-dot"></span> Full body detected</li>
+        <li data-check="landmarks"><span class="calib-dot"></span> Shoulders, elbows, hips &amp; wrists visible</li>
+        <li data-check="orientation"><span class="calib-dot"></span> Side-on push-up position</li>
+      </ul>
+
+      <div class="calib-result" id="calibReady" hidden>
+        <p class="calib-result__title">✓ You're ready!</p>
+        <p class="muted">Camera detected successfully.</p>
+      </div>
+
+      <div class="calib-actions">
+        <button class="btn btn--primary btn--full" id="startCountdownBtn" disabled>Start Challenge</button>
+        <button class="link-btn" data-nav="dashboard">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRACKING SCREEN ============ -->
+  <section class="screen screen--tracker" id="screen-tracker" data-screen>
+    <div class="tracker">
+      <div class="tracker__topline">
+        <span class="tracker__title">PUSH-UP CHALLENGE</span>
+        <span class="tracker__timer" id="trackerTimer">00:00</span>
+      </div>
+
+      <div class="scoreboard">
+        <span class="scoreboard__num" id="repCounter">0</span>
+        <span class="scoreboard__label">REPS</span>
+        <span class="rep-pop" id="repPop">+1 REP</span>
+      </div>
+
+      <div class="camera-stage">
+        <video id="trackerVideo" autoplay playsinline muted></video>
+        <canvas id="trackerCanvas"></canvas>
+
+        <div class="overlay-top">
+          <span class="camera-badge" id="trackingQualityBadge">Tracking: —</span>
+          <button class="icon-btn" id="soundToggleBtn" aria-label="Toggle sound">🔊</button>
+        </div>
+
+        <div class="overlay-bottom" id="formFeedback" aria-live="polite"></div>
+
+        <div class="overlay-full" id="countdownOverlay" hidden>
+          <span class="countdown-text" id="countdownText">3</span>
+        </div>
+
+        <div class="overlay-full overlay-full--dim" id="restOverlay" hidden>
+          <p class="rest-title">Rest detected</p>
+          <p class="muted">Taking a short break?</p>
+          <span class="countdown-text countdown-text--small" id="restCountdownText">3</span>
+        </div>
+
+        <div class="overlay-full overlay-full--dim" id="pausedOverlay" hidden>
+          <p class="rest-title">Challenge Paused</p>
+          <p class="muted">Your camera tracking is temporarily paused.</p>
+          <div class="overlay-full__actions">
+            <button class="btn btn--primary" id="resumeBtn">Resume</button>
+            <button class="btn btn--secondary" id="endFromPauseBtn">End Challenge</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone-toast" id="milestoneToast" hidden></div>
+
+      <div class="tracker__controls">
+        <button class="btn btn--secondary btn--lg" id="pauseBtn">Pause</button>
+        <button class="btn btn--danger btn--lg" id="finishBtn">Finish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT SCREEN ============ -->
+  <section class="screen screen--centered" id="screen-result" data-screen>
+    <div class="card card--result">
+      <p class="eyebrow" id="resultEyebrow">CHALLENGE COMPLETE</p>
+      <div class="result-flame" id="resultPrBadge" hidden>🔥 NEW PERSONAL RECORD</div>
+      <span class="result-num" id="resultReps">0</span>
+      <span class="result-unit">PUSH-UPS</span>
+
+      <div class="result-grid">
+        <div>
+          <span class="result-grid__label">Previous Best</span>
+          <span class="result-grid__value" id="resultPrevBest">0</span>
+        </div>
+        <div>
+          <span class="result-grid__label">Duration</span>
+          <span class="result-grid__value" id="resultDuration">0:00</span>
+        </div>
+        <div>
+          <span class="result-grid__label">Rank</span>
+          <span class="result-grid__value" id="resultRank">—</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn--primary btn--full" id="tryAgainBtn">Try Again</button>
+        <button class="btn btn--secondary btn--full" data-nav="leaderboard">View Leaderboard</button>
+        <button class="link-btn" data-nav="dashboard">Back to Dashboard</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEADERBOARD SCREEN ============ -->
+  <section class="screen" id="screen-leaderboard" data-screen>
+    <div class="page-head">
+      <p class="eyebrow" id="leaderboardEyebrow">🏆 LOCAL LEADERBOARD</p>
+      <h1>Leaderboard</h1>
+      <p class="muted">See how your reps stack up against everyone else who's played.</p>
+    </div>
+
+    <div class="notice" id="leaderboardNotice">
+      <strong>This is a local leaderboard.</strong> Scores are saved with <code>localStorage</code>, so they
+      live only in this browser.
+    </div>
+
+    <div class="panel panel--wide">
+      <div id="leaderboardFullList" class="board-list board-list--full"><!-- injected --></div>
+    </div>
+
+    <div class="panel panel--wide">
+      <div class="panel__head"><h2>Leaderboard Rules</h2></div>
+      <ul class="rules-list">
+        <li>Only completed challenges count.</li>
+        <li>Scores are based on valid detected repetitions — never entered by hand.</li>
+        <li>Highest score ranks first; ties share the same rank.</li>
+        <li>Your personal best is your highest valid single-session score.</li>
+        <li>No manual score editing, ever.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ HISTORY SCREEN ============ -->
+  <section class="screen" id="screen-history" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">YOUR RECORD HISTORY</p>
+      <h1>Challenge History</h1>
+      <p class="muted">Every completed challenge on this device, newest first.</p>
+    </div>
+    <div class="panel panel--wide">
+      <div id="historyFullList" class="history-list"><!-- injected --></div>
+      <div class="empty-state" id="historyEmpty" hidden>
+        <p>No challenges yet.</p>
+        <button class="btn btn--primary" id="historyStartBtn">Start your first challenge</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS SCREEN ============ -->
+  <section class="screen" id="screen-how-it-works" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">THE MECHANICS</p>
+      <h1>How It Works</h1>
+    </div>
+
+    <div class="faq">
+      <details open>
+        <summary>What is the challenge?</summary>
+        <p>Do as many push-ups as you can, back to back, without stopping. Your score is the number of
+          <strong>valid, consecutive</strong> repetitions counted by the camera before you rest or finish.</p>
+      </details>
+      <details>
+        <summary>How does the camera count reps?</summary>
+        <p>REP LINE runs on-device pose detection (MediaPipe Pose Landmarker) to find your shoulders, elbows,
+          wrists and hips 30+ times a second. It measures your elbow angle over time and only counts a rep
+          after a full <strong>up → down → up</strong> cycle — never from a single frame or a small twitch.</p>
+      </details>
+      <details>
+        <summary>What counts as a valid push-up?</summary>
+        <p>Starting near-straight arms (top position), lowering until your elbow angle passes the bottom
+          threshold, then pushing back up past the top threshold again. Partial dips, wiggling, or standing up
+          don't complete the cycle, so they aren't counted.</p>
+      </details>
+      <details>
+        <summary>How should I position my camera?</summary>
+        <p>Prop your phone or laptop at roughly waist height, to your <strong>side</strong>, far enough back
+          that your whole body — shoulders to ankles — fits in frame. Landscape orientation usually works best
+          on phones.</p>
+      </details>
+      <details>
+        <summary>Why wasn't my rep counted?</summary>
+        <p>Usually one of: part of your body left the frame, lighting was too low for confident tracking, or
+          the movement didn't reach a full top or bottom position. Watch the on-screen tracking quality and
+          form feedback — they'll tell you what to fix in real time.</p>
+      </details>
+      <details>
+        <summary>How is the leaderboard calculated?</summary>
+        <p>Highest completed-challenge score wins, sorted descending, with ties sharing a rank. It's a
+          <strong>local</strong> leaderboard stored in this browser — see the leaderboard page for what that
+          means and what it would take to make it fully shared.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ SETTINGS SCREEN ============ -->
+  <section class="screen" id="screen-settings" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">SETTINGS</p>
+      <h1>Settings</h1>
+    </div>
+
+    <div class="panel panel--wide settings-panel">
+      <div class="settings-row">
+        <div>
+          <h3>Display Name</h3>
+          <p class="muted" id="settingsCurrentName">Guest</p>
+        </div>
+        <button class="btn btn--secondary" id="editNameBtn">Edit</button>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Log Out</h3>
+          <p class="muted">Forget your display name on this device. Your history and leaderboard score stay saved.</p>
+        </div>
+        <button class="btn btn--secondary" id="logoutBtn">Log Out</button>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Sound Effects</h3>
+          <p class="muted">Rep, milestone, and PR sounds.</p>
+        </div>
+        <button class="switch" id="soundSwitch" role="switch" aria-checked="true">
+          <span class="switch__thumb"></span>
+        </button>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Theme</h3>
+          <p class="muted">Choose your preferred look.</p>
+        </div>
+        <div class="segmented" id="themeSegmented">
+          <button data-theme="dark" class="segmented__btn is-active">Dark</button>
+          <button data-theme="light" class="segmented__btn">Light</button>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Clear History</h3>
+          <p class="muted">Remove your challenge history and personal records from this browser.</p>
+        </div>
+        <button class="btn btn--danger-outline" id="clearHistoryBtn">Clear My History</button>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Reset All Data</h3>
+          <p class="muted">Wipe your name, history, and local leaderboard entry entirely.</p>
+        </div>
+        <button class="btn btn--danger-outline" id="resetDataBtn">Reset Data</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ CONFIRM MODAL (generic) ============ -->
+<div class="modal-backdrop" id="confirmModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h3 id="confirmTitle">Are you sure?</h3>
+    <p id="confirmBody" class="muted"></p>
+    <div class="modal__actions">
+      <button class="btn btn--secondary" id="confirmCancelBtn">Cancel</button>
+      <button class="btn btn--danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast" hidden></div>
+
+<!-- MediaPipe Tasks Vision (pose landmark detection) -->
+<script type="module" src="script.js"></script>
+</body>
+</html>
