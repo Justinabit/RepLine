@@ -26,6 +26,7 @@
       <button class="navlink" data-nav="history">History</button>
       <button class="navlink" data-nav="how-it-works">How It Works</button>
       <button class="navlink" data-nav="settings">Settings</button>
+      <button class="navlink" data-nav="about">About</button>
     </nav>
 
     <div class="topbar__user">
@@ -46,6 +47,7 @@
   <button class="mobile-menu__link" data-nav="history">History</button>
   <button class="mobile-menu__link" data-nav="how-it-works">How It Works</button>
   <button class="mobile-menu__link" data-nav="settings">Settings</button>
+  <button class="mobile-menu__link" data-nav="about">About</button>
 </div>
 
 <main id="app">
@@ -469,7 +471,77 @@
     </div>
   </section>
 
+  <!-- ============ ABOUT SCREEN ============ -->
+  <section class="screen" id="screen-about" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">ABOUT</p>
+      <h1>About REP LINE</h1>
+      <p class="muted">REP LINE is a camera-based push-up challenge tracker designed to make push-up
+        competitions simple, interactive, and fun.</p>
+    </div>
+
+    <div class="panel panel--wide">
+      <p class="muted" style="margin:0;">The website uses real-time pose detection to track body movement and
+        automatically count valid push-up repetitions.</p>
+    </div>
+
+    <div class="dashboard-columns">
+      <div class="panel">
+        <div class="panel__head"><h2>What You Can Do</h2></div>
+        <ul class="rules-list">
+          <li>Start a push-up challenge</li>
+          <li>Track repetitions using your camera</li>
+          <li>Set personal records</li>
+          <li>View challenge history</li>
+          <li>Compare scores on the leaderboard</li>
+          <li>Challenge yourself and compete with friends</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head"><h2>How It Works</h2></div>
+        <ol class="rules-list">
+          <li>Allow camera access</li>
+          <li>Position your body so it's clearly visible</li>
+          <li>Start the challenge</li>
+          <li>Pose detection tracks your movement</li>
+          <li>Valid push-ups are counted automatically</li>
+          <li>Finish to save your result</li>
+          <li>View your score and leaderboard position</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="panel panel--wide">
+      <div class="panel__head"><h2>Built With</h2></div>
+      <ul class="rules-list">
+        <li><strong>HTML5</strong> — Structure and content of the website.</li>
+        <li><strong>CSS3</strong> — Responsive interface and visual design.</li>
+        <li><strong>JavaScript</strong> — Application logic, camera interaction, challenge system, and user interface.</li>
+        <li><strong>MediaPipe</strong> — Real-time body pose detection used for push-up tracking.</li>
+        <li><strong>Supabase</strong> — Database and backend services for storing application data.</li>
+        <li><strong>Vercel</strong> — Deployment and hosting platform for the website.</li>
+      </ul>
+    </div>
+
+    <div class="panel panel--wide">
+      <p class="eyebrow" style="margin-bottom:4px;">MADE BY</p>
+      <h3 style="margin:0 0 4px;">Vince Justin A. Illana</h3>
+      <p class="muted" style="margin:0 0 12px;">Designed and developed by Vince Justin A. Illana.</p>
+      <a class="link-btn" href="https://vince-justin-illana.base44.app" target="_blank" rel="noopener noreferrer">View Portfolio ↗</a>
+    </div>
+  </section>
+
 </main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <span class="site-footer__brand">REP<span class="brand__accent">LINE</span></span>
+  <span class="site-footer__sep">·</span>
+  <span>Made by Vince Justin A. Illana</span>
+  <span class="site-footer__sep">·</span>
+  <a href="https://vince-justin-illana.base44.app" target="_blank" rel="noopener noreferrer">View Portfolio ↗</a>
+</footer>
 
 <!-- ============ CONFIRM MODAL (generic) ============ -->
 <div class="modal-backdrop" id="confirmModal" hidden>

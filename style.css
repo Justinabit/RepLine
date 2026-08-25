@@ -453,6 +453,18 @@ button{ font-family: inherit; }
 }
 @keyframes toastIn{ from{ opacity:0; transform: translate(-50%, 8px);} to{ opacity:1; transform: translate(-50%,0);} }
 
+/* ================= FOOTER ================= */
+.site-footer{
+  max-width: 1180px; margin: 8px auto 32px; padding: 18px 20px 0;
+  border-top: 1px solid var(--border);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap: 8px;
+  font-size: 0.8rem; color: var(--text-faint); text-align:center;
+}
+.site-footer__brand{ font-family: var(--font-display); letter-spacing: 0.03em; color: var(--text-muted); }
+.site-footer__sep{ opacity: 0.5; }
+.site-footer a{ color: var(--text-faint); font-weight:600; text-decoration:none; transition: color .15s; }
+.site-footer a:hover{ color: var(--accent-strong); }
+
 /* ================= RESPONSIVE FIXES ================= */
 @media (max-width: 480px){
   .result-grid{ grid-template-columns: 1fr; }
