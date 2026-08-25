@@ -1,85 +1,124 @@
-# REP LINE — Camera-Based Push-Up Challenge Tracker
+<div align="center">
 
-Do push-ups in front of your camera and REP LINE counts your reps for you —
-no wearables, no manual counting. Compete for the highest number of
-**consecutive** push-ups on a live leaderboard.
+# 💪 REP LINE
 
-Built with plain HTML, CSS, and JavaScript — no framework, no build step.
-Pose detection runs entirely in the browser via
-[MediaPipe Pose Landmarker](https://developers.google.com/mediapipe/solutions/vision/pose_landmarker).
-Nothing from your camera is ever recorded or uploaded.
+**A camera-based push-up tracker that counts your reps for you.**
+
+No wearables. No manual counting. Just your camera, real pose detection, and a live leaderboard to keep you honest.
+
+</div>
 
 ---
 
+## What is this?
+
+REP LINE turns any laptop or phone camera into a push-up referee. Get in
+frame, start a challenge, and it tracks your shoulders, elbows, wrists, and
+hips in real time to count only **full, valid repetitions** — down, bottom,
+and back up. Wiggling, partial dips, and camera jitter don't count.
+
+The goal each session is simple: **how many push-ups can you do without
+stopping?** Your best gets saved, your history is tracked, and your score
+can go up against everyone else on a live leaderboard.
+
+Everything runs client-side. Your camera feed is processed locally in the
+browser for pose detection and is never recorded, streamed, or uploaded
+anywhere — the only thing that ever leaves your device is a rep count.
+
 ## Features
 
-- **Real pose-based rep counting** — tracks shoulder/elbow/wrist/hip
-  landmarks and only counts a rep after a full up → down → up cycle, so
-  wiggling, partial dips, and camera jitter don't inflate your score.
-- **Calibration screen** before every session, checking body visibility and
-  push-up orientation so you know tracking will actually work.
-- **Live tracking screen** with a big scoreboard-style rep counter, rest-break
-  detection with a grace period, milestone celebrations, and PR effects.
-- **Personal records & full challenge history**, stored per browser.
-- **Leaderboard** — works local-only out of the box (`localStorage`), or as a
-  live, shared, real-time leaderboard for every visitor once you connect a
-  free [Supabase](https://supabase.com) project (see below).
-- Sound toggle, light/dark theme, display-name log in/out, responsive layout
-  (phone portrait & landscape through desktop).
+- 🎯 **Real pose-based rep counting** — not a timer, not a guess. Detection
+  is driven by actual joint-angle tracking via MediaPipe's Pose Landmarker,
+  with a state machine that requires a complete movement cycle before a rep
+  counts.
+- ✅ **Calibration screen** before every session confirms your full body is
+  visible and you're positioned correctly, so you're not guessing whether
+  tracking will work.
+- 🔥 **Live tracking UI** — a big scoreboard-style counter, rest-break
+  detection with a grace period (so a short pause doesn't end your set),
+  milestone celebrations, and personal-record effects.
+- 📈 **Personal records & full challenge history**, saved per browser.
+- 🏆 **Leaderboard** — works out of the box as a local, per-browser
+  leaderboard, or as a live, real-time leaderboard shared across every
+  visitor once connected to a free Supabase backend.
+- 🌗 Light/dark theme, sound toggle, and a fully responsive layout that
+  works in phone portrait, phone landscape, and desktop.
+
+## Try it
+
+*(`https://repline-sigma.vercel.app`)*
+
+## How it works
+
+REP LINE loads [MediaPipe's Pose Landmarker](https://developers.google.com/mediapipe/solutions/vision/pose_landmarker)
+directly in the browser and runs it against your live camera feed. Each
+frame, it:
+
+1. Reads the angle at your elbow (shoulder–elbow–wrist).
+2. Classifies your position as **up**, **down**, or **mid-movement**.
+3. Only counts a rep once you've completed a full **up → down → up** cycle —
+   a single frame or small twitch is never enough.
+4. Cross-checks that you're actually in a horizontal push-up position (not
+   just standing and bending an arm) before counting anything at all.
+
+If tracking drops out briefly — bad lighting, a body part leaving frame —
+the app tolerates it with a short grace period instead of ending your
+session on one bad frame.
+
+## Getting started
+
+This is a static site — plain HTML, CSS, and JavaScript, no framework, no
+build step, no `npm install`.
+
+```bash
+git clone https://github.com/Justinabit/repline.git
+cd repline
+python3 -m http.server 8000
+```
+
+Then open `http://localhost:8000`. (Camera access requires a secure
+context; `localhost` satisfies that, so this works without HTTPS locally.)
+
+## Enabling the shared leaderboard
+
+Out of the box, the leaderboard is local to each browser (via
+`localStorage`) — fully functional, just not shared across devices. To turn
+on a live, real-time leaderboard for every visitor, connect a free
+[Supabase](https://supabase.com) project and drop your credentials into
+`script.js`.
+
 
 ## Project structure
 
 ```
-index.html                    the app (structure/markup)
+index.html                    app structure/markup
 style.css                     design system + styles
 script.js                     all application logic
 supabase_schema.sql           run once in Supabase to enable the shared leaderboard
-SETUP_SHARED_LEADERBOARD.md   step-by-step: Supabase setup + Vercel deployment
+SETUP_SHARED_LEADERBOARD.md   Supabase setup + Vercel deployment guide
 ```
-
-## Running it locally
-
-This is a static site — no build step, no `npm install`. Camera access
-requires a "secure context," so open it via a local server rather than
-double-clicking the file:
-
-```bash
-# from this folder
-python3 -m http.server 8000
-# then open http://localhost:8000
-```
-
-(`localhost` counts as secure even over plain HTTP, so this works fine.)
-
-## Enabling the shared (global) leaderboard
-
-By default the leaderboard is local to each browser. To make it live and
-shared across every visitor, connect a free Supabase project and paste your
-project URL + anon key into `CONFIG` at the top of `script.js`. Full
-step-by-step instructions, including the one-time SQL setup, are in
-[`SETUP_SHARED_LEADERBOARD.md`](./SETUP_SHARED_LEADERBOARD.md).
-
-Until you do that, the app works exactly as-is with a local, per-browser
-leaderboard — nothing is broken or fake in the meantime.
-
-## Deploying
-
-Recommended: push this repo to GitHub, then import it into
-[Vercel](https://vercel.com) — it's detected as a static site automatically,
-with no configuration needed. Full walkthrough in
-[`SETUP_SHARED_LEADERBOARD.md`](./SETUP_SHARED_LEADERBOARD.md).
 
 ## Privacy
 
-- Camera video is processed **locally in the browser** for pose detection —
-  it is never recorded, uploaded, or stored.
-- Only challenge results (name, rep count, duration, date) are saved, either
-  to `localStorage` on your device or, if you've connected Supabase, to the
-  shared leaderboard table — see `supabase_schema.sql` for exactly what that
-  stores and how it's protected.
+- Camera video is processed **locally in the browser** for pose detection.
+  It is never recorded, streamed, or uploaded.
+- The only data ever saved is challenge results — display name, rep count,
+  duration, date — either to `localStorage` on your device, or, if you've
+  connected Supabase, to a leaderboard table designed so scores can only go
+  up and can't be forged for another player. See `supabase_schema.sql` for
+  the exact schema and access rules.
 
-## Tech
+## Built with
 
 - [MediaPipe Tasks Vision](https://developers.google.com/mediapipe/solutions/vision/pose_landmarker) — on-device pose detection
-- [Supabase](https://supabase.com) (optional) — Postgres + realtime for the shared leaderboard
-- No frameworks, no bundler — vanilla HTML/CSS/JS throughout
+- [Supabase](https://supabase.com) *(optional)* — Postgres + realtime for the shared leaderboard
+- Vanilla HTML/CSS/JS — no frameworks, no bundler
+
+## Contributing
+
+Issues and pull requests are welcome — whether that's improving detection
+accuracy, adding new milestone effects, or general polish.
+
+## License
+
+[MIT](./LICENSE) — feel free to use, modify, and distribute this, including commercially, as long as the original copyright notice is kept.
