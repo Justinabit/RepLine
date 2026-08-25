@@ -46,8 +46,8 @@ const CONFIG = {
   // Replace both of these with the values from your own Supabase project
   // (Project Settings → API). Until you do, REP LINE automatically falls
   // back to a local, per-browser leaderboard — nothing breaks either way.
-  SUPABASE_URL: "YOUR_SUPABASE_PROJECT_URL",
-  SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY",
+  SUPABASE_URL: "https://vwfpvgusidvsbbuqdhtj.supabase.co/rest/v1/",
+  SUPABASE_ANON_KEY: "sb_publishable_b9SQxrdZ09suWlzZbnKOWg_LDKJBoBU",
 };
 
 // BlazePose landmark indices we actually use.
