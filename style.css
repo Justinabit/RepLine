@@ -412,6 +412,7 @@ button{ font-family: inherit; }
 
 .empty-state{ text-align:center; padding: 40px 10px; color: var(--text-muted); }
 .empty-state .btn{ margin-top: 12px; }
+.privacy-actions{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top: 18px; }
 
 /* ================= SETTINGS ================= */
 .settings-panel{ display:flex; flex-direction:column; gap: 0; }
@@ -443,7 +444,9 @@ button{ font-family: inherit; }
   background: var(--surface); border:1px solid var(--border); border-radius: var(--radius); padding: 24px;
   max-width: 400px; width:100%; box-shadow: var(--shadow-card);
 }
+.modal--wide{ max-width: 520px; text-align: left; max-height: 85vh; overflow-y: auto; }
 .modal__actions{ display:flex; gap:10px; margin-top: 18px; justify-content:flex-end; }
+.modal__actions--start{ justify-content: flex-start; flex-wrap: wrap; }
 
 .toast{
   position: fixed; bottom: 20px; left:50%; transform: translateX(-50%); z-index: 70;
@@ -464,6 +467,11 @@ button{ font-family: inherit; }
 .site-footer__sep{ opacity: 0.5; }
 .site-footer a{ color: var(--text-faint); font-weight:600; text-decoration:none; transition: color .15s; }
 .site-footer a:hover{ color: var(--accent-strong); }
+.site-footer__link-btn{
+  background:none; border:none; padding:0; cursor:pointer; font: inherit;
+  color: var(--text-faint); font-weight:600; transition: color .15s;
+}
+.site-footer__link-btn:hover{ color: var(--accent-strong); }
 
 /* ================= RESPONSIVE FIXES ================= */
 @media (max-width: 480px){

@@ -209,6 +209,11 @@ const dom = {
   confirmCancelBtn: $("confirmCancelBtn"),
   confirmOkBtn: $("confirmOkBtn"),
   toast: $("toast"),
+
+  privacyModal: $("privacyModal"),
+  privacyModalUnderstandBtn: $("privacyModalUnderstandBtn"),
+  privacyModalPolicyBtn: $("privacyModalPolicyBtn"),
+  privacyPolicyContinueBtn: $("privacyPolicyContinueBtn"),
 };
 
 /* ======================= 4. CAMERA SETUP ======================= */
@@ -831,7 +836,7 @@ function renderDashboard() {
   const rows = leaderboardRows();
   dom.dashboardLeaderboardList.innerHTML = "";
   if (rows.length === 0) {
-    dom.dashboardLeaderboardList.innerHTML = `<p class="muted">Complete a challenge to join the local leaderboard.</p>`;
+    dom.dashboardLeaderboardList.innerHTML = `<p class="muted">Complete a challenge to join the leaderboard.</p>`;
   } else {
     rows.slice(0, 5).forEach((row) => dom.dashboardLeaderboardList.appendChild(buildBoardRow(row)));
   }
@@ -905,7 +910,7 @@ function renderLeaderboardPage() {
   const rows = leaderboardRows();
   dom.leaderboardFullList.innerHTML = "";
   if (rows.length === 0) {
-    dom.leaderboardFullList.innerHTML = `<p class="muted">No scores yet on this device. Finish a challenge to take the top spot.</p>`;
+    dom.leaderboardFullList.innerHTML = `<p class="muted">No scores yet. Finish a challenge to take the top spot.</p>`;
     return;
   }
   rows.forEach((row) => dom.leaderboardFullList.appendChild(buildBoardRow(row)));
@@ -987,7 +992,8 @@ async function initSharedLeaderboard() {
   }
   try {
     state.supabase = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-    await refreshRemoteLeaderboard();
+    const ok = await refreshRemoteLeaderboard();
+    if (!ok) throw new Error("Initial shared-leaderboard fetch failed — check the console for the Supabase error.");
     state.remoteConnected = true;
 
     // Live updates: whenever anyone's score changes, refresh everyone's view.
@@ -1007,7 +1013,7 @@ async function initSharedLeaderboard() {
 }
 
 async function refreshRemoteLeaderboard() {
-  if (!state.supabase) return;
+  if (!state.supabase) return false;
   const { data, error } = await state.supabase
     .from("leaderboard")
     .select("player_name, best_score")
@@ -1015,7 +1021,7 @@ async function refreshRemoteLeaderboard() {
     .limit(100);
   if (error) {
     console.error("Couldn't fetch shared leaderboard:", error);
-    return;
+    return false;
   }
   state.remoteLeaderboard = data.map((r) => ({ name: r.player_name, score: r.best_score }));
   renderDashboard();
@@ -1024,6 +1030,7 @@ async function refreshRemoteLeaderboard() {
     const rank = currentUserRank();
     dom.resultRank.textContent = rank ? `#${rank}` : "—";
   }
+  return true;
 }
 
 // Scores only ever go up server-side (see submit_score in the SQL setup),
@@ -1109,6 +1116,77 @@ function openConfirm(title, body, confirmLabel, onConfirm) {
 function closeConfirm() {
   dom.confirmModal.hidden = true;
   confirmCallback = null;
+}
+
+/* ======================= PRIVACY NOTICE (first-time) =======================
+   Separate from camera permission on purpose — acknowledging this notice
+   never grants camera access by itself. The browser's own permission
+   prompt (triggered later, from the camera setup screen) is the only
+   thing that can actually turn the camera on. */
+
+function isPrivacyAcknowledged() {
+  try {
+    return localStorage.getItem(K("privacyNoticeAcknowledged")) === "true";
+  } catch (e) {
+    return false;
+  }
+}
+
+function acknowledgePrivacyNotice() {
+  try {
+    localStorage.setItem(K("privacyNoticeAcknowledged"), "true");
+  } catch (e) { /* ignore — worst case, the notice shows again next visit */ }
+  closePrivacyModal();
+}
+
+function privacyModalFocusables() {
+  return [dom.privacyModalUnderstandBtn, dom.privacyModalPolicyBtn];
+}
+
+function handlePrivacyModalKeydown(e) {
+  if (e.key === "Escape") {
+    e.preventDefault();
+    acknowledgePrivacyNotice();
+    return;
+  }
+  if (e.key === "Tab") {
+    // Minimal focus trap between the modal's two buttons.
+    const focusables = privacyModalFocusables();
+    const idx = focusables.indexOf(document.activeElement);
+    e.preventDefault();
+    const nextIdx = e.shiftKey
+      ? (idx <= 0 ? focusables.length - 1 : idx - 1)
+      : (idx === focusables.length - 1 ? 0 : idx + 1);
+    focusables[nextIdx].focus();
+  }
+}
+
+function openPrivacyModal() {
+  dom.privacyModal.hidden = false;
+  document.addEventListener("keydown", handlePrivacyModalKeydown);
+  dom.privacyModalUnderstandBtn.focus();
+}
+
+function closePrivacyModal() {
+  dom.privacyModal.hidden = true;
+  document.removeEventListener("keydown", handlePrivacyModalKeydown);
+}
+
+function wirePrivacyNotice() {
+  dom.privacyModalUnderstandBtn.addEventListener("click", acknowledgePrivacyNotice);
+  dom.privacyModalPolicyBtn.addEventListener("click", () => {
+    // Viewing the policy doesn't count as acknowledging it — only the
+    // explicit "I Understand" action does.
+    closePrivacyModal();
+    showScreen("privacy-policy");
+  });
+  dom.privacyPolicyContinueBtn.addEventListener("click", () => {
+    acknowledgePrivacyNotice();
+    showScreen("dashboard");
+  });
+  dom.privacyModal.addEventListener("click", (e) => {
+    if (e.target === dom.privacyModal) acknowledgePrivacyNotice();
+  });
 }
 
 /* ======================= SOUND ======================= */
@@ -1416,6 +1494,7 @@ function init() {
   wireResult();
   wireSettings();
   wireConfirmModal();
+  wirePrivacyNotice();
 
   window.addEventListener("beforeunload", stopCamera);
   window.addEventListener("resize", () => {
@@ -1426,6 +1505,7 @@ function init() {
 
   showScreen("dashboard");
   initSharedLeaderboard();
+  if (!isPrivacyAcknowledged()) openPrivacyModal();
 }
 
 init();

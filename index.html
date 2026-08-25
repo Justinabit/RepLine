@@ -58,7 +58,7 @@
     <div class="hero">
       <div class="hero__content">
         <p class="eyebrow">PUSH-UP CHALLENGE</p>
-        <h1 class="hero__title">How many can<br>you do<span class="hero__accent-dot">?</span></h1>
+        <h1 class="hero__title">How many can<br>you do<span class="hero__accent-dot">.</span></h1>
         <p class="hero__sub">No stopping. No shortcuts. Just you, the camera, and the count.
           Challenge your friends and try to beat your own best.</p>
         <button class="btn btn--primary btn--xl" id="startChallengeBtn">
@@ -468,6 +468,14 @@
         </div>
         <button class="btn btn--danger-outline" id="resetDataBtn">Reset Data</button>
       </div>
+
+      <div class="settings-row">
+        <div>
+          <h3>Privacy Policy</h3>
+          <p class="muted">How your camera is used and what data REP LINE stores.</p>
+        </div>
+        <button class="btn btn--secondary" data-nav="privacy-policy">View</button>
+      </div>
     </div>
   </section>
 
@@ -532,16 +540,260 @@
     </div>
   </section>
 
+  <!-- ============ PRIVACY POLICY SCREEN ============ -->
+  <section class="screen" id="screen-privacy" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">PRIVACY POLICY</p>
+      <h1>Privacy Policy</h1>
+      <p class="muted">How REP LINE uses your camera, what data is stored, and what stays only on your
+        device.</p>
+    </div>
+
+    <div class="faq">
+      <details open>
+        <summary>Overview</summary>
+        <p>REP LINE is a camera-based push-up tracker. This policy explains how your camera is used, what
+          information is stored, and how the leaderboard works.</p>
+      </details>
+
+      <details>
+        <summary>Camera Usage</summary>
+        <p>REP LINE only accesses your camera after you choose to start a challenge and your browser grants
+          permission. The camera feed is used exclusively to detect your body position and count push-up
+          repetitions — nothing else.</p>
+      </details>
+
+      <details>
+        <summary>How Pose Detection Works</summary>
+        <p>REP LINE uses MediaPipe's pose detection technology to identify body landmarks — like your
+          shoulders, elbows, wrists, and hips — from the camera feed. These landmarks are used to calculate
+          movement and recognize completed push-ups, live, frame by frame, while you're tracking.</p>
+      </details>
+
+      <details>
+        <summary>Camera Data</summary>
+        <p>Camera-based pose detection is performed locally in your browser. The camera feed is used to
+          calculate body movement and push-up repetitions, and is not intended to be recorded or saved as
+          video, uploaded, or shared with other users.</p>
+      </details>
+
+      <details>
+        <summary>Challenge Data</summary>
+        <p>Separately from camera footage, REP LINE does store information related to your challenges: your
+          push-up count, challenge duration and date, personal best, and challenge history. This is just
+          numbers and text — never video or images.</p>
+      </details>
+
+      <details>
+        <summary>Supabase &amp; Data Storage</summary>
+        <p>If the shared leaderboard is enabled, REP LINE uses Supabase — a third-party database service — to
+          store the challenge data described above, such as your display name and best score, so it can be
+          shown on the leaderboard. Camera video is not uploaded to Supabase for the purpose of recording or
+          storing your push-up sessions. Otherwise, data like your history and personal records is stored
+          locally in your browser using <code>localStorage</code> and stays on your device.</p>
+      </details>
+
+      <details>
+        <summary>Leaderboard Visibility</summary>
+        <p>If you take part in the shared leaderboard, your display name and push-up score may be visible to
+          other players. Your camera feed and camera video are never displayed on the leaderboard — only your
+          name and score.</p>
+      </details>
+
+      <details>
+        <summary>Browser Permissions</summary>
+        <p>Your browser will ask for permission before REP LINE can access your camera. You can deny
+          permission at any time. If you deny it, the push-up camera tracker won't be available, but you can
+          still browse the dashboard, leaderboard, history, and other parts of the site.</p>
+      </details>
+
+      <details>
+        <summary>User Controls</summary>
+        <p>You can stop camera access at any time by pausing or finishing your challenge, or by navigating
+          away from the tracking screen — REP LINE releases the camera as soon as it's no longer needed. You
+          can also revoke camera permission at any time through your browser's site settings.</p>
+      </details>
+
+      <details>
+        <summary>Third-Party Services</summary>
+        <p>REP LINE relies on a few third-party services: MediaPipe for on-device pose detection, Supabase for
+          storing challenge and leaderboard data, and Vercel for hosting and deploying the website. None of
+          these services receive your camera footage — MediaPipe's pose detection runs locally in your
+          browser, and only challenge data, never video, is ever sent to Supabase.</p>
+      </details>
+
+      <details>
+        <summary>Data Security</summary>
+        <p>We take reasonable steps to protect the information used by REP LINE. However, no internet service
+          can guarantee absolute security.</p>
+      </details>
+
+      <details>
+        <summary>Changes to This Privacy Policy</summary>
+        <p>This policy may be updated as REP LINE changes. Continued use of the website after changes means
+          you accept the updated policy. Significant changes to how the camera is used will be reflected
+          here.</p>
+      </details>
+
+      <details>
+        <summary>Contact / Creator Information</summary>
+        <p>REP LINE was created and developed by Vince Justin A. Illana.
+          <a href="https://vince-justin-illana.base44.app" target="_blank" rel="noopener noreferrer">View Portfolio ↗</a>
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY POLICY SCREEN ============ -->
+  <section class="screen" id="screen-privacy-policy" data-screen>
+    <div class="page-head">
+      <p class="eyebrow">YOUR PRIVACY</p>
+      <h1>Privacy Policy</h1>
+      <p class="muted">How REP LINE uses your camera, what it stores, and what stays off your device entirely.</p>
+    </div>
+
+    <div class="faq">
+      <details open>
+        <summary>1. Overview</summary>
+        <p>REP LINE is a camera-based push-up tracker. This policy explains, plainly, how your camera is used
+          and what information the app stores so you can decide whether you're comfortable using it.</p>
+      </details>
+
+      <details>
+        <summary>2. Camera Usage</summary>
+        <p>Your camera is used only to detect and count push-up movements while you're actively using the
+          tracker. REP LINE does not intentionally record, photograph, save, upload, or share your camera
+          footage, and does not use your camera for anything unrelated to push-up tracking.</p>
+      </details>
+
+      <details>
+        <summary>3. How Pose Detection Works</summary>
+        <p>REP LINE uses MediaPipe's pose detection technology to identify body landmarks (like your
+          shoulders, elbows, wrists, and hips) from the live camera feed. Those landmarks are used to figure
+          out your body position and recognize when you've completed a valid push-up. This detection runs
+          locally in your browser — your device does the calculation itself.</p>
+      </details>
+
+      <details>
+        <summary>4. Camera Data</summary>
+        <p>REP LINE does not need to record your camera video to count push-ups, and does not do so. The
+          video frames are analyzed for pose landmarks in the moment and are not saved as a video file,
+          image, or recording — on your device or anywhere else.</p>
+      </details>
+
+      <details>
+        <summary>5. Challenge Data</summary>
+        <p>What <em>is</em> saved is your challenge results — things like your rep count, challenge duration,
+          date, and whether it was a personal record. This is ordinary app data, not camera footage, and is
+          stored in your browser's local storage on your device.</p>
+      </details>
+
+      <details>
+        <summary>6. Supabase &amp; Data Storage</summary>
+        <p>If the site's shared leaderboard is enabled, REP LINE uses <a href="https://supabase.com" target="_blank" rel="noopener noreferrer">Supabase</a>
+          to store the data needed for that feature — specifically your display name and best score. Camera
+          video is never uploaded to Supabase, or anywhere else, for the purpose of recording or storing your
+          push-up sessions.</p>
+      </details>
+
+      <details>
+        <summary>7. Leaderboard Visibility</summary>
+        <p>If you take part in a shared leaderboard, your display name and push-up score may be visible to
+          other players. Your camera feed and camera video are never displayed on the leaderboard, or
+          anywhere else — only the numbers are shared.</p>
+      </details>
+
+      <details>
+        <summary>8. Browser Permissions</summary>
+        <p>Your browser will ask for permission before REP LINE can access your camera. You can deny
+          permission at any time. If you deny it, or haven't granted it yet, the push-up camera tracker won't
+          be available, but the rest of the site — your dashboard, history, and leaderboard — still works
+          normally.</p>
+      </details>
+
+      <details>
+        <summary>9. User Controls</summary>
+        <p>You can stop camera access at any point by pausing or finishing your challenge, or by navigating
+          away from the tracking screen — REP LINE releases the camera as soon as it's no longer needed. You
+          can also revoke camera permission entirely through your browser's own site settings.</p>
+      </details>
+
+      <details>
+        <summary>10. Third-Party Services</summary>
+        <p>REP LINE relies on a small number of third-party services: <strong>MediaPipe</strong> for
+          on-device pose detection, <strong>Supabase</strong> (optional) for shared leaderboard data, and
+          <strong>Vercel</strong> for hosting the website itself. None of these receive your camera footage.</p>
+      </details>
+
+      <details>
+        <summary>11. Data Security</summary>
+        <p>We take reasonable steps to protect the information REP LINE stores. However, no internet service
+          can guarantee absolute security, and we can't promise one either.</p>
+      </details>
+
+      <details>
+        <summary>12. Changes to This Privacy Policy</summary>
+        <p>If this policy changes, the update will be reflected on this page. Meaningful changes to how the
+          camera is used would only ever move toward more transparency, not less.</p>
+      </details>
+
+      <details>
+        <summary>13. Contact / Creator Information</summary>
+        <p>REP LINE was created and developed by Vince Justin A. Illana.
+          <a href="https://vince-justin-illana.base44.app" target="_blank" rel="noopener noreferrer">View Portfolio ↗</a>
+        </p>
+      </details>
+    </div>
+
+    <div class="privacy-actions">
+      <button class="btn btn--primary" id="privacyPolicyContinueBtn">I Understand — Continue</button>
+      <button class="link-btn" data-nav="dashboard">← Back to Dashboard</button>
+    </div>
+  </section>
+
 </main>
 
 <!-- ============ FOOTER ============ -->
 <footer class="site-footer">
   <span class="site-footer__brand">REP<span class="brand__accent">LINE</span></span>
   <span class="site-footer__sep">·</span>
+  <button class="site-footer__link-btn" data-nav="privacy-policy">Privacy Policy</button>
+  <span class="site-footer__sep">·</span>
   <span>Made by Vince Justin A. Illana</span>
   <span class="site-footer__sep">·</span>
   <a href="https://vince-justin-illana.base44.app" target="_blank" rel="noopener noreferrer">View Portfolio ↗</a>
 </footer>
+
+<!-- ============ PRIVACY NOTICE (first-time) ============ -->
+<div class="modal-backdrop" id="privacyModal" hidden>
+  <div class="modal modal--wide" role="dialog" aria-modal="true" aria-labelledby="privacyModalTitle">
+    <p class="eyebrow" style="margin-bottom:4px;">YOUR PRIVACY MATTERS</p>
+    <h2 id="privacyModalTitle" style="margin-bottom:10px;">Before you start</h2>
+    <p class="muted">REP LINE uses your camera only to detect your body movements and count your push-ups.
+      Your camera feed is processed for pose detection and is not intended to be recorded or shared. Your
+      camera is only used while you're actively using the push-up tracker.</p>
+
+    <h3 style="margin-top:18px;">What we don't do</h3>
+    <ul class="rules-list">
+      <li>We do not record or save your camera video.</li>
+      <li>We do not upload your camera footage anywhere, including the leaderboard.</li>
+      <li>We do not share your camera feed with other players.</li>
+      <li>We do not use your camera for advertising or anything unrelated to push-up tracking.</li>
+    </ul>
+
+    <p class="muted" style="margin-top:14px;">We do save your challenge results (like your rep count and, if
+      you join the leaderboard, your display name) — never camera footage.</p>
+
+    <p class="muted" style="margin-top:14px;">Please review this notice before allowing camera access. Your
+      browser will separately ask permission before REP LINE can use your camera — you're always in control
+      of that.</p>
+
+    <div class="modal__actions modal__actions--start">
+      <button class="btn btn--primary" id="privacyModalUnderstandBtn">I Understand</button>
+      <button class="btn btn--secondary" id="privacyModalPolicyBtn">Privacy Policy</button>
+    </div>
+  </div>
+</div>
 
 <!-- ============ CONFIRM MODAL (generic) ============ -->
 <div class="modal-backdrop" id="confirmModal" hidden>
