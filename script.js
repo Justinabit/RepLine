@@ -24,13 +24,9 @@ const CONFIG = {
   MIN_VISIBILITY_FOR_TRACKING: 0.35,
   // Visibility needed for "excellent" tracking quality display.
   GOOD_VISIBILITY: 0.7,
-  // How long with no meaningful movement before we start the visible
-  // "rest detected" countdown. Kept short but non-zero so a normal brief
-  // pause at the top/bottom of a single rep doesn't falsely trigger it.
-  REST_TRIGGER_MS: 2000,
-  // Visible countdown (ms) once rest is detected, before auto-ending.
-  // REST_TRIGGER_MS + REST_COUNTDOWN_MS = total stillness before the
-  // challenge auto-finishes — currently 2s + 3s = 5 seconds.
+  // How long with no meaningful movement before we assume the user stopped.
+  REST_TRIGGER_MS: 7000,
+  // Countdown length (ms) once rest is detected, before auto-ending.
   REST_COUNTDOWN_MS: 3000,
   // Pre-challenge "get ready" countdown, in whole seconds.
   START_COUNTDOWN_SECONDS: 3,
@@ -427,13 +423,11 @@ function averagePoint(a, b) {
 function processTrackingFrame(landmarks) {
   if (state.challengePaused) return;
 
-  const now = performance.now();
   const analysis = analyzePose(landmarks);
   updateTrackingQualityBadge(analysis?.quality ?? 0);
 
   if (!analysis || analysis.angle === null) {
     setFormFeedback("⚠ Body not detected — move into frame");
-    maybeTriggerRest(now);
     return;
   }
   if (analysis.quality < CONFIG.GOOD_VISIBILITY) {
@@ -443,10 +437,10 @@ function processTrackingFrame(landmarks) {
   }
   if (!analysis.isPlank) {
     setFormFeedback("⚠ Get into push-up position, camera to your side");
-    maybeTriggerRest(now);
     return;
   }
 
+  const now = performance.now();
   const angle = analysis.angle;
 
   // Track meaningful movement for the rest/grace timer.
